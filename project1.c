@@ -3,19 +3,100 @@
 
 // Roll Function
 int rollTheDice(){
-	return (rand()%5 + 1);
+	return (rand()%6 + 1);
 }
+
+
+// Display Game Board
+void displayBoard(int rows, int cols, int board[rows][cols]){
+	
+	int i,j;
+	for(i=0;i<9;i++){
+		printf("\n");
+		for(j=0;j<9;j++){
+			if (board[i][j]<10)
+				printf("|   %d  ",board[i][j]);
+			else
+				printf("|  %d  ",board[i][j]);
+			if(j==8)
+				printf("|\n");
+		}
+		printf("|------|------|------|------|------|------|------|------|------|-----");
+		
+		
+	}
+}
+
+
+
+
 
 
 int main(){	
 	srand(GetTickCount()); // for rand function
+	
 	int numberOfPlayers;
+	int diceValue;
 	int i,j;
 	int temp;
 	int min;
+	int choice;
+	int whichPiece;
 	int wrongOperation = 1;
 	int diceValues[2][4] = {1,2,3,4,0,0,0,0};
-	int startArray[2][4];
+	int board[9][9]={0};
+	int rota[32]={0};
+	int choosePiece;
+	
+	int isAnyWinner = 0;
+	
+	int isAlive[4]={4,4,4,4};   // safe place
+	
+	// rota
+	
+	
+	
+	board[3][0]= rota[0];
+	board[3][1]= rota[1];
+	board[3][2]= rota[2];
+	board[3][3]= rota[3];
+	board[2][3]= rota[4];
+	board[1][3]= rota[5];
+	board[0][3]= rota[6];
+	board[0][4]= rota[7];
+	board[0][5]= rota[8];
+	board[1][5]= rota[9];
+	board[2][5]= rota[10];
+	board[3][5]= rota[11];
+	board[3][6]= rota[12];
+	board[3][7]= rota[13];
+	board[3][8]= rota[14];
+	board[5][8]= rota[16];
+	board[5][6]= rota[18];
+	board[5][5]= rota[19];
+	board[6][5]= rota[20];
+	board[7][5]= rota[21];
+	board[8][5]= rota[22];
+	board[8][4]= rota[23];
+	board[8][3]= rota[24];
+	board[7][3]= rota[25];
+	board[6][3]= rota[26];
+	board[5][3]= rota[27];
+	board[5][2]= rota[28];
+	board[5][1]= rota[29];
+	board[5][0]= rota[30];
+	board[4][0]= rota[31];
+
+	
+	int yellow[2][2] = {11,12,13,14};
+	int red[2][2] = {21,22,23,24};
+	int green[2][2] = {31,32,33,34};
+	int blue[2][2] = {41,42,43,44};
+	
+	int yellowFinished[4]={0};
+	int redFinished[4]={0};
+	int greenFinished[4]={0};
+	int blueFinished[4]={0};
 
 	
 	
@@ -34,12 +115,63 @@ int main(){
 	
 	
 	// Colors of players
-	if(numberOfPlayers==4)
+	if(numberOfPlayers==4){
 		printf("Player1 : Yellow\nPlayer2 : Red\nPlayer3 : Green\nPlayer4 : Blue\n");
-	else if(numberOfPlayers==3)
+		board[0][0]=yellow[0][0];
+		board[0][1]=yellow[0][1];
+		board[1][0]=yellow[1][0];
+		board[1][1]=yellow[1][1];
+		
+		board[0][7]=red[0][0];
+		board[0][8]=red[0][1];
+		board[1][7]=red[1][0];
+		board[1][8]=red[1][1];
+		
+		board[7][0]=green[0][0];
+		board[7][1]=green[0][1];
+		board[8][0]=green[1][0];
+		board[8][1]=green[1][1];
+		
+		board[7][7]=blue[0][0];
+		board[7][8]=blue[0][1];
+		board[8][7]=blue[1][0];
+		board[8][8]=blue[1][1];
+	}
+
+		
+	else if(numberOfPlayers==3){
 		printf("Player1 : Yellow\nPlayer2 : Red\nPlayer3 : Green\n");
-	else
+		
+		board[0][0]=yellow[0][0];
+		board[0][1]=yellow[0][1];
+		board[1][0]=yellow[1][0];
+		board[1][1]=yellow[1][1];
+		
+		board[0][7]=red[0][0];
+		board[0][8]=red[0][1];
+		board[1][7]=red[1][0];
+		board[1][8]=red[1][1];
+		
+		board[7][0]=green[0][0];
+		board[7][1]=green[0][1];
+		board[8][0]=green[1][0];
+		board[8][1]=green[1][1];
+	}
+		
+	else{
 		printf("Player1 : Yellow\nPlayer2 : Red\n");
+		
+		board[0][0]=yellow[0][0];
+		board[0][1]=yellow[0][1];
+		board[1][0]=yellow[1][0];
+		board[1][1]=yellow[1][1];
+		
+		board[0][7]=red[0][0];
+		board[0][8]=red[0][1];
+		board[1][7]=red[1][0];
+		board[1][8]=red[1][1];
+	}
+		
 	
 	
 	// Decide who to start
@@ -64,11 +196,78 @@ int main(){
 
 	// turn to play
 	for(i=numberOfPlayers-1;i>=0;i--){
-		printf("\n%d.player  %d degerli",diceValues[0][i],diceValues[1][i]);
+		printf("\n%d.player  %d value",diceValues[0][i],diceValues[1][i]);
 	}
 	
-
 	
+	
+	displayBoard(9,9,board);
+	int numberOfPlayersCopy = numberOfPlayers;
+	// while dongusu koyulmalý
+	while(isAnyWinner==0){
+		int currentPlayer=diceValues[0][numberOfPlayers-1];
+		printf("\n%d.players turn\n",currentPlayer);
+		
+		
+		printf("press 1 to dice: \n");
+		printf("Answer: ");
+		
+		scanf("%d",&choice);
+		if(choice==1){
+		
+			int temp = rollTheDice();
+			printf("dice value: %d\n",temp);
+		
+			if(temp==6){
+				// pawnda piyon kalmadýysa tek seçenek göster
+				if(isAlive[currentPlayer]!=4){
+					printf("press 1 for a new piece\npress 2 to move a piece: ");
+					scanf("%d",&choice);
+				}
+				else{
+					printf("press 1 for a new piece: ");
+					scanf("%d",&choice);
+					
+				}	
+				
+			
+				if(choice==1){
+					
+					// yellow arrayinin ilk elemaný diyelim
+					printf("Y2 entered the game\n");
+					isAlive[currentPlayer]--;
+				
+				}
+			
+				if(choice==2){
+					printf("which piece should move: ");
+					scanf("%d",&whichPiece);
+				}
+			}
+			else{
+				
+				// bir piyon varsa
+				if(4-isAlive[currentPlayer]==1){
+					printf(" R2 will move: ");
+				}
+				//birden fazla ise
+				else if(4-isAlive[currentPlayer]>1){
+					printf("which piece should movee: ");
+					scanf("%d",&choosePiece);
+				}
+				else{
+					printf("Please, wait this round. \n");
+					
+				}
+			
+			}
+	
+		}
+		
+		numberOfPlayers--;
+		if(numberOfPlayers==0)
+			numberOfPlayers=numberOfPlayersCopy;
+	}
 	
 	
 	
