@@ -29,32 +29,7 @@ void displayBoard(int rows, int cols, int board[rows][cols]){
 
 
 
-
-
-
-int main(){	
-	srand(GetTickCount()); // for rand function
-	
-	int numberOfPlayers;
-	int diceValue;
-	int i,j;
-	int temp;
-	int min;
-	int choice;
-	int whichPiece;
-	int wrongOperation = 1;
-	int diceValues[2][4] = {1,2,3,4,0,0,0,0};
-	int board[9][9]={0};
-	int rota[32]={0};
-	int choosePiece;
-	
-	int isAnyWinner = 0;
-	
-	int isAlive[4]={4,4,4,4};   // safe place
-	
-	// rota
-	
-	
+void update(int row,int col,int board[row][col],int len,int rota[len]){
 	
 	board[3][0]= rota[0];
 	board[3][1]= rota[1];
@@ -86,6 +61,62 @@ int main(){
 	board[5][1]= rota[29];
 	board[5][0]= rota[30];
 	board[4][0]= rota[31];
+	
+}
+
+void yellowToBoard(int row,int col,int board[row][col],int i,int j, int yellow[i][j]){
+		board[0][0]=yellow[0][0];
+		board[0][1]=yellow[0][1];
+		board[1][0]=yellow[1][0];
+		board[1][1]=yellow[1][1];
+}
+void redToBoard(int row,int col,int board[row][col],int i,int j, int red[i][j]){
+		board[0][7]=red[0][0];
+		board[0][8]=red[0][1];
+		board[1][7]=red[1][0];
+		board[1][8]=red[1][1];
+}
+void greenToBoard(int row,int col,int board[row][col],int i,int j, int green[i][j]){
+		board[7][0]=green[0][0];
+		board[7][1]=green[0][1];
+		board[8][0]=green[1][0];
+		board[8][1]=green[1][1];
+}
+void blueToBoard(int row,int col,int board[row][col],int i,int j, int blue[i][j]){
+		board[7][7]=blue[0][0];
+		board[7][8]=blue[0][1];
+		board[8][7]=blue[1][0];
+		board[8][8]=blue[1][1];
+}
+
+
+
+
+int main(){	
+	srand(GetTickCount()); // for rand function
+	
+	int numberOfPlayers;
+	int diceValue;
+	int i,j;
+	int temp;
+	int min;
+	int choice;
+	int whichPiece;
+	int wrongOperation = 1;
+	int diceValues[2][4] = {1,2,3,4,0,0,0,0};
+	int board[9][9]={0};
+	int rota[32]={0};
+	int choosePiece;
+	
+	int isAnyWinner = 0;
+	
+	int isAlive[4]={4,4,4,4};   // safe place
+	
+	// rota
+	
+	
+	
+	update(9,9, board,9,rota);
 
 	
 	int yellow[2][2] = {11,12,13,14};
@@ -93,6 +124,7 @@ int main(){
 	int green[2][2] = {31,32,33,34};
 	int blue[2][2] = {41,42,43,44};
 	
+	// tüm piyonlar final destinationa geldiginde 4 olacak
 	int yellowFinished[4]={0};
 	int redFinished[4]={0};
 	int greenFinished[4]={0};
@@ -117,59 +149,25 @@ int main(){
 	// Colors of players
 	if(numberOfPlayers==4){
 		printf("Player1 : Yellow\nPlayer2 : Red\nPlayer3 : Green\nPlayer4 : Blue\n");
-		board[0][0]=yellow[0][0];
-		board[0][1]=yellow[0][1];
-		board[1][0]=yellow[1][0];
-		board[1][1]=yellow[1][1];
-		
-		board[0][7]=red[0][0];
-		board[0][8]=red[0][1];
-		board[1][7]=red[1][0];
-		board[1][8]=red[1][1];
-		
-		board[7][0]=green[0][0];
-		board[7][1]=green[0][1];
-		board[8][0]=green[1][0];
-		board[8][1]=green[1][1];
-		
-		board[7][7]=blue[0][0];
-		board[7][8]=blue[0][1];
-		board[8][7]=blue[1][0];
-		board[8][8]=blue[1][1];
+		yellowToBoard(9,9,board,2,2,yellow);
+		redToBoard(9,9,board,2,2,red);
+		greenToBoard(9,9,board,2,2,green);
+		blueToBoard(9,9,board,2,2,blue);	
 	}
-
 		
 	else if(numberOfPlayers==3){
 		printf("Player1 : Yellow\nPlayer2 : Red\nPlayer3 : Green\n");
 		
-		board[0][0]=yellow[0][0];
-		board[0][1]=yellow[0][1];
-		board[1][0]=yellow[1][0];
-		board[1][1]=yellow[1][1];
-		
-		board[0][7]=red[0][0];
-		board[0][8]=red[0][1];
-		board[1][7]=red[1][0];
-		board[1][8]=red[1][1];
-		
-		board[7][0]=green[0][0];
-		board[7][1]=green[0][1];
-		board[8][0]=green[1][0];
-		board[8][1]=green[1][1];
+		yellowToBoard(9,9,board,2,2,yellow);
+		redToBoard(9,9,board,2,2,red);
+		greenToBoard(9,9,board,2,2,green);
 	}
 		
 	else{
 		printf("Player1 : Yellow\nPlayer2 : Red\n");
 		
-		board[0][0]=yellow[0][0];
-		board[0][1]=yellow[0][1];
-		board[1][0]=yellow[1][0];
-		board[1][1]=yellow[1][1];
-		
-		board[0][7]=red[0][0];
-		board[0][8]=red[0][1];
-		board[1][7]=red[1][0];
-		board[1][8]=red[1][1];
+		yellowToBoard(9,9,board,2,2,yellow);
+		redToBoard(9,9,board,2,2,red);
 	}
 		
 	
@@ -206,7 +204,19 @@ int main(){
 	// while dongusu koyulmalý
 	while(isAnyWinner==0){
 		int currentPlayer=diceValues[0][numberOfPlayers-1];
-		printf("\n%d.players turn\n",currentPlayer);
+		
+		if(currentPlayer==1){
+			printf("\nYellows turn\n",currentPlayer);
+		}
+		else if(currentPlayer==2){
+			printf("\nReds turn\n",currentPlayer);
+		}
+		else if(currentPlayer==3){
+			printf("\nGreens turn\n",currentPlayer);
+		}
+		else if(currentPlayer==4){
+			printf("\nBlues turn\n",currentPlayer);
+		}
 		
 		
 		printf("press 1 to dice: \n");
@@ -220,7 +230,7 @@ int main(){
 		
 			if(temp==6){
 				// pawnda piyon kalmadýysa tek seçenek göster
-				if(isAlive[currentPlayer]!=4){
+				if(isAlive[currentPlayer-1]!=4){
 					printf("press 1 for a new piece\npress 2 to move a piece: ");
 					scanf("%d",&choice);
 				}
@@ -235,8 +245,106 @@ int main(){
 					
 					// yellow arrayinin ilk elemaný diyelim
 					printf("Y2 entered the game\n");
+					
+					if(isAlive[currentPlayer-1]==4){
+						if(currentPlayer==1){
+							rota[0]=yellow[0][0];
+							yellow[0][0]=0;
+						}
+						else if(currentPlayer==2){
+							rota[0]=red[0][0];
+							red[0][0]=0;
+						}
+						else if(currentPlayer==3){
+							rota[0]=green[0][0];
+							green[0][0]=0;
+						}
+						else if(currentPlayer==4){
+							rota[0]=blue[0][0];
+							blue[0][0]=0;
+						}
+						
+					}
+					else if(isAlive[currentPlayer]==3){
+						if(currentPlayer==1){
+							rota[0]=yellow[0][1];
+							yellow[0][1]=0;
+						}
+						else if(currentPlayer==2){
+							rota[0]=red[0][1];
+							red[0][1]=0;
+						}
+						else if(currentPlayer==3){
+							rota[0]=green[0][1];
+							green[0][1]=0;
+						}
+						else if(currentPlayer==4){
+							rota[0]=blue[0][1];
+							blue[0][1]=0;
+						}
+					}
+						//yap
+					else if(isAlive[currentPlayer]==3){
+						if(currentPlayer==1){
+							rota[0]=yellow[1][0];
+							yellow[1][0]=0;
+						}
+						else if(currentPlayer==2){
+							rota[0]=red[1][0];
+							red[1][0]=0;
+						}
+						else if(currentPlayer==3){
+							rota[0]=green[1][0];
+							green[1][0]=0;
+						}
+						else if(currentPlayer==4){
+							rota[0]=blue[1][0];
+							blue[1][0]=0;
+						}
+						
+					}
+						//yap
+					else if(isAlive[currentPlayer]==3){
+						if(currentPlayer==1){
+							rota[0]=yellow[1][1];
+							yellow[1][1]=0;
+						}
+						else if(currentPlayer==2){
+							rota[0]=red[1][1];
+							red[1][1]=0;
+						}
+						else if(currentPlayer==3){
+							rota[0]=green[1][1];
+							green[1][1]=0;
+						}
+						else if(currentPlayer==4){
+							rota[0]=blue[1][1];
+							blue[1][1]=0;
+						}
+					}
+						
 					isAlive[currentPlayer]--;
-				
+					
+					// Update safePlaces
+					if(currentPlayer==1){
+						yellowToBoard(9,9,board,2,2,yellow);
+		
+					}
+					else if(currentPlayer==2){
+						redToBoard(9,9,board,2,2,red);
+						
+					}
+					else if(currentPlayer==3){
+						greenToBoard(9,9,board,2,2,green);
+						
+					}
+					else if(currentPlayer==4){
+						blueToBoard(9,9,board,2,2,blue);
+					}
+					
+					
+					// Update board
+					update(9,9, board,9,rota);
 				}
 			
 				if(choice==2){
@@ -263,18 +371,13 @@ int main(){
 			}
 	
 		}
-		
+		printf("current player: %d",currentPlayer);
+		displayBoard(9,9,board);
 		numberOfPlayers--;
 		if(numberOfPlayers==0)
 			numberOfPlayers=numberOfPlayersCopy;
 	}
-	
-	
-	
-	
 
-
-	
 	return 0;
 	
 }
