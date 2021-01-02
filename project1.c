@@ -14,10 +14,19 @@ void displayBoard(int rows, int cols, int board[rows][cols]){
 	for(i=0;i<9;i++){
 		printf("\n");
 		for(j=0;j<9;j++){
-			if (board[i][j]<10)
-				printf("|   %d  ",board[i][j]);
-			else
-				printf("|  %d  ",board[i][j]);
+			if (board[i][j]<10){
+				if(board[i][j]==-1){
+					printf("|      ",board[i][j]);
+				}
+				else{
+					printf("|   %d  ",board[i][j]);
+				}
+			}
+				
+			else{
+					printf("|  %d  ",board[i][j]);
+			}
+				
 			if(j==8)
 				printf("|\n");
 		}
@@ -46,7 +55,9 @@ void update(int row,int col,int board[row][col],int len,int rota[len]){
 	board[3][6]= rota[12];
 	board[3][7]= rota[13];
 	board[3][8]= rota[14];
+	board[4][8]= rota[15];
 	board[5][8]= rota[16];
+	board[5][7]= rota[17];
 	board[5][6]= rota[18];
 	board[5][5]= rota[19];
 	board[6][5]= rota[20];
@@ -105,6 +116,10 @@ int main(){
 	int wrongOperation = 1;
 	int diceValues[2][4] = {1,2,3,4,0,0,0,0};
 	int board[9][9]={0};
+	board[2][0]=-1;board[2][1]=-1;board[2][2]=-1;board[1][2]=-1;board[0][2]=-1;board[2][6]=-1;board[2][7]=-1;board[2][8]=-1;
+	board[0][6]=-1;board[1][6]=-1;board[6][0]=-1;board[6][1]=-1;board[6][2]=-1;board[7][2]=-1;board[8][2]=-1;board[6][6]=-1;
+	board[6][7]=-1;board[6][8]=-1;board[7][6]=-1;board[8][6]=-1;board[4][4]=-1;
+	
 	int rota[32]={0};
 	int choosePiece;
 	
@@ -116,13 +131,19 @@ int main(){
 	
 	
 	
-	update(9,9, board,9,rota);
+	update(9,9, board,32,rota);
 
 	
 	int yellow[2][2] = {11,12,13,14};
 	int red[2][2] = {21,22,23,24};
 	int green[2][2] = {31,32,33,34};
 	int blue[2][2] = {41,42,43,44};
+	
+	
+	int yellowStart=0;
+	int redStart=8;
+	int greenStart=24;
+	int blueStart=16;
 	
 	// tüm piyonlar final destinationa geldiginde 4 olacak
 	int yellowFinished[4]={0};
@@ -252,83 +273,95 @@ int main(){
 							yellow[0][0]=0;
 						}
 						else if(currentPlayer==2){
-							rota[0]=red[0][0];
+							rota[8]=red[0][0];
 							red[0][0]=0;
 						}
 						else if(currentPlayer==3){
-							rota[0]=green[0][0];
+							rota[24]=green[0][0];
 							green[0][0]=0;
 						}
 						else if(currentPlayer==4){
-							rota[0]=blue[0][0];
+							rota[16]=blue[0][0];
 							blue[0][0]=0;
 						}
 						
 					}
-					else if(isAlive[currentPlayer]==3){
+					else if(isAlive[currentPlayer-1]==3){
 						if(currentPlayer==1){
 							rota[0]=yellow[0][1];
 							yellow[0][1]=0;
 						}
 						else if(currentPlayer==2){
-							rota[0]=red[0][1];
+							rota[8]=red[0][1];
 							red[0][1]=0;
 						}
 						else if(currentPlayer==3){
-							rota[0]=green[0][1];
+							rota[24]=green[0][1];
 							green[0][1]=0;
 						}
 						else if(currentPlayer==4){
-							rota[0]=blue[0][1];
+							rota[16]=blue[0][1];
 							blue[0][1]=0;
 						}
 					}
-						//yap
-					else if(isAlive[currentPlayer]==3){
+
+
+					else if(isAlive[currentPlayer-1]==2){
+						
 						if(currentPlayer==1){
 							rota[0]=yellow[1][0];
 							yellow[1][0]=0;
 						}
+						
 						else if(currentPlayer==2){
-							rota[0]=red[1][0];
+							rota[8]=red[1][0];
 							red[1][0]=0;
 						}
+						
 						else if(currentPlayer==3){
-							rota[0]=green[1][0];
+							rota[24]=green[1][0];
 							green[1][0]=0;
 						}
+						
 						else if(currentPlayer==4){
-							rota[0]=blue[1][0];
+							rota[16]=blue[1][0];
 							blue[1][0]=0;
 						}
 						
 					}
-						//yap
-					else if(isAlive[currentPlayer]==3){
+						
+					else if(isAlive[currentPlayer-1]==1){
 						if(currentPlayer==1){
 							rota[0]=yellow[1][1];
 							yellow[1][1]=0;
 						}
 						else if(currentPlayer==2){
-							rota[0]=red[1][1];
+							rota[8]=red[1][1];
 							red[1][1]=0;
 						}
 						else if(currentPlayer==3){
-							rota[0]=green[1][1];
+							rota[24]=green[1][1];
 							green[1][1]=0;
 						}
 						else if(currentPlayer==4){
-							rota[0]=blue[1][1];
+							rota[16]=blue[1][1];
 							blue[1][1]=0;
 						}
 					}
+					else{
+						printf("All pieces have been played");
+						isAlive[currentPlayer-1]++;
+					}
 						
-					isAlive[currentPlayer]--;
+					isAlive[currentPlayer-1]--;
+					
+					
 					
 					// Update safePlaces
+					
+					
 					if(currentPlayer==1){
 						yellowToBoard(9,9,board,2,2,yellow);
-		
 					}
 					else if(currentPlayer==2){
 						redToBoard(9,9,board,2,2,red);
@@ -343,8 +376,10 @@ int main(){
 					}
 					
 					
+					
 					// Update board
-					update(9,9, board,9,rota);
+					update(9,9, board,32,rota);
+					
 				}
 			
 				if(choice==2){
@@ -354,26 +389,53 @@ int main(){
 			}
 			else{
 				
-				// bir piyon varsa
-				if(4-isAlive[currentPlayer]==1){
-					printf(" R2 will move: ");
+				// bir piyon varsa piyon hareketi 
+				//YELLOW
+				if(4-isAlive[currentPlayer-1]==1 && currentPlayer==1){
+					printf("-%d-tekbirpiyonvar",temp);
+					rota[yellowStart+temp]=rota[yellowStart];
+					rota[yellowStart]=0;
+					yellowStart+=temp;
+					if(yellowStart>31){
+						printf("piyon basariyla sona geldi");
+					}
 				}
 				//birden fazla ise
-				else if(4-isAlive[currentPlayer]>1){
-					printf("which piece should movee: ");
-					scanf("%d",&choosePiece);
-				}
+//				else if(4-isAlive[currentPlayer-1]>1){
+//					printf("which piece should movee: ");
+//					scanf("%d",&choosePiece);
+//					
+//				}
 				else{
 					printf("Please, wait this round. \n");
 					
 				}
+				
+				//UPDATE
+				if(currentPlayer==1){
+					yellowToBoard(9,9,board,2,2,yellow);
+				}
+				else if(currentPlayer==2){
+					redToBoard(9,9,board,2,2,red);
+					
+				}
+				else if(currentPlayer==3){
+					greenToBoard(9,9,board,2,2,green);
+					
+				}
+				else if(currentPlayer==4){
+					blueToBoard(9,9,board,2,2,blue);
+				}
+				update(9,9,board,32,rota);
 			
 			}
 	
 		}
 		printf("current player: %d",currentPlayer);
 		displayBoard(9,9,board);
+		
 		numberOfPlayers--;
+		
 		if(numberOfPlayers==0)
 			numberOfPlayers=numberOfPlayersCopy;
 	}
