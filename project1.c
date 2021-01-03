@@ -40,38 +40,22 @@ void displayBoard(int rows, int cols, int board[rows][cols]){
 
 void update(int row,int col,int board[row][col],int len,int rota[len]){
 	
-	board[3][0]= rota[0];
-	board[3][1]= rota[1];
-	board[3][2]= rota[2];
-	board[3][3]= rota[3];
-	board[2][3]= rota[4];
-	board[1][3]= rota[5];
-	board[0][3]= rota[6];
-	board[0][4]= rota[7];
-	board[0][5]= rota[8];
-	board[1][5]= rota[9];
-	board[2][5]= rota[10];
-	board[3][5]= rota[11];
-	board[3][6]= rota[12];
-	board[3][7]= rota[13];
-	board[3][8]= rota[14];
-	board[4][8]= rota[15];
-	board[5][8]= rota[16];
-	board[5][7]= rota[17];
-	board[5][6]= rota[18];
-	board[5][5]= rota[19];
-	board[6][5]= rota[20];
-	board[7][5]= rota[21];
-	board[8][5]= rota[22];
-	board[8][4]= rota[23];
-	board[8][3]= rota[24];
-	board[7][3]= rota[25];
-	board[6][3]= rota[26];
-	board[5][3]= rota[27];
-	board[5][2]= rota[28];
-	board[5][1]= rota[29];
-	board[5][0]= rota[30];
-	board[4][0]= rota[31];
+	board[3][0]= rota[0];	board[3][1]= rota[1];
+	board[3][2]= rota[2];	board[3][3]= rota[3];
+	board[2][3]= rota[4];	board[1][3]= rota[5];
+	board[0][3]= rota[6];	board[0][4]= rota[7];
+	board[0][5]= rota[8];	board[1][5]= rota[9];
+	board[2][5]= rota[10];	board[3][5]= rota[11];
+	board[3][6]= rota[12];	board[3][7]= rota[13];
+	board[3][8]= rota[14];	board[4][8]= rota[15];
+	board[5][8]= rota[16];	board[5][7]= rota[17];
+	board[5][6]= rota[18];	board[5][5]= rota[19];
+	board[6][5]= rota[20];	board[7][5]= rota[21];
+	board[8][5]= rota[22];	board[8][4]= rota[23];
+	board[8][3]= rota[24];	board[7][3]= rota[25];
+	board[6][3]= rota[26];	board[5][3]= rota[27];
+	board[5][2]= rota[28];	board[5][1]= rota[29];
+	board[5][0]= rota[30];	board[4][0]= rota[31];
 	
 }
 
@@ -106,6 +90,11 @@ void blueToBoard(int row,int col,int board[row][col],int i,int j, int blue[i][j]
 int main(){	
 	srand(GetTickCount()); // for rand function
 	
+	// controller of finishing
+	int redfinish[4]={0};
+	int greenfinish[4]={0};
+	int bluefinish[4]={0};
+	
 	int numberOfPlayers;
 	int diceValue;
 	int i,j;
@@ -136,14 +125,14 @@ int main(){
 	
 	int yellow[2][2] = {11,12,13,14};
 	int red[2][2] = {21,22,23,24};
-	int green[2][2] = {31,32,33,34};
-	int blue[2][2] = {41,42,43,44};
+	int blue[2][2] = {31,32,33,34};
+	int green[2][2] = {41,42,43,44};
 	
 	
-	int yellowStart=0;
-	int redStart=8;
-	int greenStart=24;
-	int blueStart=16;
+	int yellowStart[4]={0};
+	int redStart[4]={8,8,8,8};
+	int greenStart[4]={24,24,24,24};
+	int blueStart[4]={16,16,16,16};
 	
 	// tüm piyonlar final destinationa geldiginde 4 olacak
 	int yellowFinished[4]={0};
@@ -389,23 +378,86 @@ int main(){
 			}
 			else{
 				
-				// bir piyon varsa piyon hareketi 
-				//YELLOW
-				if(4-isAlive[currentPlayer-1]==1 && currentPlayer==1){
-					printf("-%d-tekbirpiyonvar",temp);
-					rota[yellowStart+temp]=rota[yellowStart];
-					rota[yellowStart]=0;
-					yellowStart+=temp;
-					if(yellowStart>31){
-						printf("piyon basariyla sona geldi");
+			
+				
+				// movement
+				 if(4-isAlive[currentPlayer-1]>0 ){
+					printf("which piece should movee: ");
+					scanf("%d",&choosePiece);
+					
+					//yellow
+					for(i=11;i<15;i++){
+						if(i==choosePiece){
+							rota[yellowStart[i-11]+temp]=rota[yellowStart[i-11]];
+							rota[yellowStart[i-11]]=0;
+							yellowStart[i-11]+=temp;
+							if(yellowStart[i-11]>31){
+								printf("piyon basariyla sona geldi");
+								isAlive[currentPlayer-1]++;	
+							}
+						}
 					}
+					
+					//red
+					for(i=21;i<25;i++){
+						if(i==choosePiece){
+							rota[(redStart[i-21]+temp)%32]=rota[redStart[i-21]];
+							rota[redStart[i-21]]=0;
+							redStart[i-21]+=temp;
+							if(redStart[i-21]>32){
+								redfinish[i-21]=1;
+							}
+							redStart[i-21]=redStart[i-21]%32;
+							if(redStart[i-21]>7 && redfinish[i-21]==1){
+								printf("piyon basariyla sona geldi");
+								isAlive[currentPlayer-1]++;
+								rota[redStart[i-21]]=0;
+							}
+						}
+					}
+					
+					//green
+					for(i=41;i<45;i++){
+						if(i==choosePiece){
+							rota[(greenStart[i-41]+temp)%32]=rota[greenStart[i-41]];
+							rota[greenStart[i-41]]=0;
+							greenStart[i-41]+=temp;
+							if(greenStart[i-41]>32){
+								greenfinish[i-41]=1;
+							}
+							greenStart[i-41]=greenStart[i-41]%32;
+							if(greenStart[i-41]>23 && greenfinish[i-41]==1){
+								printf("piyon basariyla sona geldi");
+								isAlive[currentPlayer-1]++;
+								rota[greenStart[i-41]]=0;
+							}
+						}
+					}
+					
+					//blue
+					for(i=31;i<35;i++){
+						if(i==choosePiece){
+							rota[(blueStart[i-31]+temp)%32]=rota[blueStart[i-31]];
+							rota[blueStart[i-31]]=0;
+							blueStart[i-31]+=temp;
+							if(blueStart[i-31]>32){
+								bluefinish[i-31]=1;
+							}
+							blueStart[i-31]=blueStart[i-31]%32;
+							if(blueStart[i-31]>15 && bluefinish[i-31]==1){
+								printf("piyon basariyla sona geldi");
+								isAlive[currentPlayer-1]++;
+								rota[blueStart[i-31]]=0;
+							}
+						}
+					}
+					
+					
+				
+	
 				}
-				//birden fazla ise
-//				else if(4-isAlive[currentPlayer-1]>1){
-//					printf("which piece should movee: ");
-//					scanf("%d",&choosePiece);
-//					
-//				}
+			
+	
 				else{
 					printf("Please, wait this round. \n");
 					
@@ -443,5 +495,6 @@ int main(){
 	return 0;
 	
 }
+
 
 
