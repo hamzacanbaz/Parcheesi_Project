@@ -9,7 +9,8 @@ int rollTheDice(){
 
 // Display Game Board
 void displayBoard(int rows, int cols, int board[rows][cols]){
-	
+	printf("\n");
+	printf("\n");
 	int i,j;
 	for(i=0;i<9;i++){
 		printf("\n");
@@ -34,6 +35,8 @@ void displayBoard(int rows, int cols, int board[rows][cols]){
 		
 		
 	}
+	printf("\n");
+	printf("\n");
 }
 
 
@@ -91,6 +94,7 @@ int main(){
 	srand(GetTickCount()); // for rand function
 	
 	// controller of finishing
+	int yellowfinish[4]={0};
 	int redfinish[4]={0};
 	int greenfinish[4]={0};
 	int bluefinish[4]={0};
@@ -139,6 +143,10 @@ int main(){
 	int redFinished[4]={0};
 	int greenFinished[4]={0};
 	int blueFinished[4]={0};
+	
+	int inBoard[4]={0};
+	int isFinished[4]={0};
+	
 
 	
 	
@@ -157,6 +165,7 @@ int main(){
 	
 	
 	// Colors of players
+	// kýsaltýlabilir yellow ve redi alta alýp hepsinden çýkarýp
 	if(numberOfPlayers==4){
 		printf("Player1 : Yellow\nPlayer2 : Red\nPlayer3 : Green\nPlayer4 : Blue\n");
 		yellowToBoard(9,9,board,2,2,yellow);
@@ -208,7 +217,7 @@ int main(){
 	}
 	
 	
-	
+	int sixController;
 	displayBoard(9,9,board);
 	int numberOfPlayersCopy = numberOfPlayers;
 	// while dongusu koyulmalý
@@ -237,15 +246,18 @@ int main(){
 		
 			int temp = rollTheDice();
 			printf("dice value: %d\n",temp);
-		
+			sixController=1;
 			if(temp==6){
+				sixController=1;
 				// pawnda piyon kalmadýysa tek seçenek göster
-				if(isAlive[currentPlayer-1]!=4){
-					printf("press 1 for a new piece\npress 2 to move a piece: ");
+				// 4-isAlive[currentPlayer-1]!=0 &&
+				if( inBoard[currentPlayer-1]==0){
+					printf("press 1 for a new piece: ");
 					scanf("%d",&choice);
 				}
 				else{
-					printf("press 1 for a new piece: ");
+					
+					printf("press 1 for a new piece\npress 2 to move a piece: ");
 					scanf("%d",&choice);
 					
 				}	
@@ -341,7 +353,7 @@ int main(){
 						printf("All pieces have been played");
 						isAlive[currentPlayer-1]++;
 					}
-						
+					inBoard[currentPlayer-1]++;	
 					isAlive[currentPlayer-1]--;
 					
 					
@@ -368,93 +380,103 @@ int main(){
 					
 					// Update board
 					update(9,9, board,32,rota);
+					sixController=0;
+				}
+				// dice = 6 but you want to move your piece that is alive
+				else if(choice==2){
+					sixController=1;
 					
 				}
-			
-				if(choice==2){
-					printf("which piece should move: ");
-					scanf("%d",&whichPiece);
-				}
 			}
-			else{
-				
-			
+			// dice == 6 but you want to move your piece that is alive OR dice != 6
+			 if(sixController==1){
 				
 				// movement
-				 if(4-isAlive[currentPlayer-1]>0 ){
+				// 4-isAlive[currentPlayer-1]
+				 if(inBoard[currentPlayer-1]>0 ){
 					printf("which piece should movee: ");
 					scanf("%d",&choosePiece);
 					
 					//yellow
 					for(i=11;i<15;i++){
-						if(i==choosePiece){
-							rota[yellowStart[i-11]+temp]=rota[yellowStart[i-11]];
-							rota[yellowStart[i-11]]=0;
-							yellowStart[i-11]+=temp;
-							if(yellowStart[i-11]>31){
+						if(i==choosePiece && currentPlayer==1 ){
+							// eger hücredeki piyon sarýysa gideme farklý renkse ye ve onu eve gönder
+							rota[yellowStart[choosePiece-11]+temp]=rota[yellowStart[choosePiece-11]];
+							rota[yellowStart[choosePiece-11]]=0;
+							yellowStart[choosePiece-11]+=temp;
+							
+							if(yellowStart[choosePiece-11]>31  ){
 								printf("piyon basariyla sona geldi");
-								isAlive[currentPlayer-1]++;	
+								inBoard[currentPlayer-1]--;
+								isFinished[currentPlayer-1]+=1;
+								rota[yellowStart[choosePiece-11]]=0;
 							}
 						}
 					}
+					if(choosePiece<15 && choosePiece>=11 && currentPlayer!=1)
+						printf("you can only play your own pawns");
 					
 					//red
 					for(i=21;i<25;i++){
-						if(i==choosePiece){
-							rota[(redStart[i-21]+temp)%32]=rota[redStart[i-21]];
-							rota[redStart[i-21]]=0;
-							redStart[i-21]+=temp;
-							if(redStart[i-21]>32){
-								redfinish[i-21]=1;
+						if(i==choosePiece && currentPlayer==2){
+							rota[(redStart[choosePiece-21]+temp)%32]=rota[redStart[choosePiece-21]];
+							rota[redStart[choosePiece-21]]=0;
+							redStart[choosePiece-21]+=temp;
+							if(redStart[choosePiece-21]>32){
+								redfinish[choosePiece-21]=1;
 							}
-							redStart[i-21]=redStart[i-21]%32;
-							if(redStart[i-21]>7 && redfinish[i-21]==1){
+							redStart[choosePiece-21]=redStart[choosePiece-21]%32;
+							if(redStart[choosePiece-21]>7 && redfinish[choosePiece-21]==1){
 								printf("piyon basariyla sona geldi");
-								isAlive[currentPlayer-1]++;
-								rota[redStart[i-21]]=0;
+								isFinished[currentPlayer-1]++;
+								inBoard[currentPlayer-1]--;
+								rota[redStart[choosePiece-21]]=0;
 							}
 						}
 					}
+					if(choosePiece<25 && choosePiece>=21 && currentPlayer!=2)
+						printf("you can only play your own pawns");
 					
 					//green
 					for(i=41;i<45;i++){
-						if(i==choosePiece){
-							rota[(greenStart[i-41]+temp)%32]=rota[greenStart[i-41]];
-							rota[greenStart[i-41]]=0;
-							greenStart[i-41]+=temp;
-							if(greenStart[i-41]>32){
-								greenfinish[i-41]=1;
+						if(i==choosePiece && currentPlayer==3){
+							rota[(greenStart[choosePiece-41]+temp)%32]=rota[greenStart[choosePiece-41]];
+							rota[greenStart[choosePiece-41]]=0;
+							greenStart[choosePiece-41]+=temp;
+							if(greenStart[choosePiece-41]>32){
+								greenfinish[choosePiece-41]=1;
 							}
-							greenStart[i-41]=greenStart[i-41]%32;
-							if(greenStart[i-41]>23 && greenfinish[i-41]==1){
+							greenStart[choosePiece-41]=greenStart[choosePiece-41]%32;
+							if(greenStart[choosePiece-41]>23 && greenfinish[choosePiece-41]==1){
 								printf("piyon basariyla sona geldi");
-								isAlive[currentPlayer-1]++;
-								rota[greenStart[i-41]]=0;
+								isFinished[currentPlayer-1]+=1;
+								rota[greenStart[choosePiece-41]]=0;
 							}
 						}
+						
 					}
+					if(choosePiece<45 && choosePiece>=41 && currentPlayer!=3)
+						printf("you can only play your own pawns");
 					
 					//blue
 					for(i=31;i<35;i++){
-						if(i==choosePiece){
-							rota[(blueStart[i-31]+temp)%32]=rota[blueStart[i-31]];
-							rota[blueStart[i-31]]=0;
-							blueStart[i-31]+=temp;
-							if(blueStart[i-31]>32){
-								bluefinish[i-31]=1;
+						if(i==choosePiece && currentPlayer==4){
+							rota[(blueStart[choosePiece-31]+temp)%32]=rota[blueStart[choosePiece-31]];
+							rota[blueStart[choosePiece-31]]=0;
+							blueStart[choosePiece-31]+=temp;
+							if(blueStart[choosePiece-31]>32){
+								bluefinish[choosePiece-31]=1;
 							}
-							blueStart[i-31]=blueStart[i-31]%32;
-							if(blueStart[i-31]>15 && bluefinish[i-31]==1){
+							blueStart[choosePiece-31]=blueStart[choosePiece-31]%32;
+							if(blueStart[choosePiece-31]>15 && bluefinish[choosePiece-31]==1){
 								printf("piyon basariyla sona geldi");
-								isAlive[currentPlayer-1]++;
-								rota[blueStart[i-31]]=0;
+								isFinished[currentPlayer-1]+=1;
+								rota[blueStart[choosePiece-31]]=0;
 							}
 						}
 					}
-					
-					
-				
-	
+					if(choosePiece<35 && choosePiece>=31 && currentPlayer!=4)
+						printf("you can only play your own pawns");
 				}
 			
 	
@@ -483,6 +505,13 @@ int main(){
 			}
 	
 		}
+		// bu kýsmý 3 piyonun 4 bölmeye geleceði þekilde ayarlamak lazým ve her piyon için
+//		board[4][1]=yellowFinished[0];
+//		board[4][2]=yellowFinished[1];
+//		board[4][3]=yellowFinished[2];
+//		
+//		board[1][4]=redFinished[0];
+		
 		printf("current player: %d",currentPlayer);
 		displayBoard(9,9,board);
 		
