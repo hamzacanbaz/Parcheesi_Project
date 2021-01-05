@@ -11,9 +11,11 @@ int rollTheDice(){
 void displayBoard(int rows, int cols, int board[rows][cols]){
 	printf("\n");
 	printf("\n");
+	printf("|------|------|------|------|------|------|------|------|------|");
 	int i,j;
 	for(i=0;i<9;i++){
 		printf("\n");
+		
 		for(j=0;j<9;j++){
 			if (board[i][j]<10){
 				if(board[i][j]==-1){
@@ -31,7 +33,7 @@ void displayBoard(int rows, int cols, int board[rows][cols]){
 			if(j==8)
 				printf("|\n");
 		}
-		printf("|------|------|------|------|------|------|------|------|------|-----");
+		printf("|------|------|------|------|------|------|------|------|------|");
 		
 		
 	}
@@ -262,8 +264,34 @@ int main(){
 					
 				}	
 				
-			
+				if(currentPlayer==1 && choice==1){
+						if(rota[0]/10==1){
+							printf("There is a piece already in the first cell\n");
+							choice=2;
+						}
+				}
+				if(currentPlayer==2 && choice==1){
+						if(rota[8]/10==2){
+							printf("There is a piece already in the first cell\n");
+							choice=2;
+						}
+				}
+				if(currentPlayer==4 && choice==1){
+						if(rota[16]/10==3){
+							printf("There is a piece already in the first cell\n");
+							choice=2;
+						}
+				}
+				if(currentPlayer==3 && choice==1){
+						if(rota[24]/10==4){
+							printf("There is a piece already in the first cell\n");
+							choice=2;
+						}
+					}
+//					
 				if(choice==1){
+					
+					
 					
 					// yellow arrayinin ilk elemaný diyelim
 					printf("Y2 entered the game\n");
@@ -352,6 +380,7 @@ int main(){
 					else{
 						printf("All pieces have been played");
 						isAlive[currentPlayer-1]++;
+						inBoard[currentPlayer-1]--;	
 					}
 					inBoard[currentPlayer-1]++;	
 					isAlive[currentPlayer-1]--;
@@ -381,7 +410,9 @@ int main(){
 					// Update board
 					update(9,9, board,32,rota);
 					sixController=0;
+					
 				}
+				
 				// dice = 6 but you want to move your piece that is alive
 				else if(choice==2){
 					sixController=1;
@@ -401,16 +432,85 @@ int main(){
 					for(i=11;i<15;i++){
 						if(i==choosePiece && currentPlayer==1 ){
 							// eger hücredeki piyon sarýysa gideme farklý renkse ye ve onu eve gönder
-							rota[yellowStart[choosePiece-11]+temp]=rota[yellowStart[choosePiece-11]];
-							rota[yellowStart[choosePiece-11]]=0;
-							yellowStart[choosePiece-11]+=temp;
+//							if(rota[yellowStart[choosePiece-11]+temp]/10==1){
+//								printf("you have your own piece in the cell you want to go\nPlease, wait this round. ");
+//							}
+							//
+//							else{
+								
+								
+								//sarý kýrmýzýyý yerse
+//								if(rota[yellowStart[choosePiece-11]+temp]/10==2){
+//									printf("you beat your opponent's piece\n");
+//									if(rota[yellowStart[choosePiece-11]+temp]%10==1){
+//										red[0][0]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==2){
+//										red[0][1]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==3){
+//										red[1][0]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==4){
+//										red[1][1]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									
+//									inBoard[1]--;
+//									isAlive[1]++;
+//									
+//								}
+//								else if(rota[yellowStart[choosePiece-11]+temp]/10==4){
+//									printf("you beat your opponent's piece\n");
+//									if(rota[yellowStart[choosePiece-11]+temp]%10==1){
+//										blue[0][0]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==2){
+//										blue[0][1]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==3){
+//										blue[1][0]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==4){
+//										blue[1][1]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									
+//									inBoard[1]--;
+//									isAlive[1]++;
+//									
+//								}
+//								else if(rota[yellowStart[choosePiece-11]+temp]/10==3){
+//									printf("you beat your opponent's piece\n");
+//									if(rota[yellowStart[choosePiece-11]+temp]%10==1){
+//										green[0][0]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==2){
+//										green[0][1]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==3){
+//										green[1][0]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									else if(rota[yellowStart[choosePiece-11]+temp]%10==4){
+//										green[1][1]=rota[yellowStart[choosePiece-11]+temp];
+//									}
+//									
+//									inBoard[1]--;
+//									isAlive[1]++;
+//									
+//								}
 							
-							if(yellowStart[choosePiece-11]>31  ){
-								printf("piyon basariyla sona geldi");
-								inBoard[currentPlayer-1]--;
-								isFinished[currentPlayer-1]+=1;
+								rota[yellowStart[choosePiece-11]+temp]=rota[yellowStart[choosePiece-11]];
 								rota[yellowStart[choosePiece-11]]=0;
-							}
+								yellowStart[choosePiece-11]+=temp;
+								
+								if(yellowStart[choosePiece-11]>31  ){
+									printf("piyon basariyla sona geldi");
+									inBoard[currentPlayer-1]--;
+									isFinished[currentPlayer-1]+=1;
+									rota[yellowStart[choosePiece-11]]=0;
+								}
+//							}
+							//
+							
 						}
 					}
 					if(choosePiece<15 && choosePiece>=11 && currentPlayer!=1)
@@ -419,19 +519,25 @@ int main(){
 					//red
 					for(i=21;i<25;i++){
 						if(i==choosePiece && currentPlayer==2){
-							rota[(redStart[choosePiece-21]+temp)%32]=rota[redStart[choosePiece-21]];
-							rota[redStart[choosePiece-21]]=0;
-							redStart[choosePiece-21]+=temp;
-							if(redStart[choosePiece-21]>32){
-								redfinish[choosePiece-21]=1;
+							if(rota[(redStart[choosePiece-21]+temp)%32]/10==2){
+								printf("you have your own piece in the cell you want to go\nPlease, wait this round. ");
 							}
-							redStart[choosePiece-21]=redStart[choosePiece-21]%32;
-							if(redStart[choosePiece-21]>7 && redfinish[choosePiece-21]==1){
-								printf("piyon basariyla sona geldi");
-								isFinished[currentPlayer-1]++;
-								inBoard[currentPlayer-1]--;
+							else{
+								rota[(redStart[choosePiece-21]+temp)%32]=rota[redStart[choosePiece-21]];
 								rota[redStart[choosePiece-21]]=0;
+								redStart[choosePiece-21]+=temp;
+								if(redStart[choosePiece-21]>32){
+									redfinish[choosePiece-21]=1;
+								}
+								redStart[choosePiece-21]=redStart[choosePiece-21]%32;
+								if(redStart[choosePiece-21]>7 && redfinish[choosePiece-21]==1){
+									printf("piyon basariyla sona geldi");
+									isFinished[currentPlayer-1]++;
+									inBoard[currentPlayer-1]--;
+									rota[redStart[choosePiece-21]]=0;
+								}
 							}
+							
 						}
 					}
 					if(choosePiece<25 && choosePiece>=21 && currentPlayer!=2)
@@ -440,18 +546,24 @@ int main(){
 					//green
 					for(i=41;i<45;i++){
 						if(i==choosePiece && currentPlayer==3){
-							rota[(greenStart[choosePiece-41]+temp)%32]=rota[greenStart[choosePiece-41]];
-							rota[greenStart[choosePiece-41]]=0;
-							greenStart[choosePiece-41]+=temp;
-							if(greenStart[choosePiece-41]>32){
-								greenfinish[choosePiece-41]=1;
+							if(rota[(redStart[choosePiece-21]+temp)%32]/10==4){
+								printf("you have your own piece in the cell you want to go\nPlease, wait this round. ");
 							}
-							greenStart[choosePiece-41]=greenStart[choosePiece-41]%32;
-							if(greenStart[choosePiece-41]>23 && greenfinish[choosePiece-41]==1){
-								printf("piyon basariyla sona geldi");
-								isFinished[currentPlayer-1]+=1;
+							else{
+								rota[(greenStart[choosePiece-41]+temp)%32]=rota[greenStart[choosePiece-41]];
 								rota[greenStart[choosePiece-41]]=0;
+								greenStart[choosePiece-41]+=temp;
+								if(greenStart[choosePiece-41]>32){
+									greenfinish[choosePiece-41]=1;
+								}
+								greenStart[choosePiece-41]=greenStart[choosePiece-41]%32;
+								if(greenStart[choosePiece-41]>23 && greenfinish[choosePiece-41]==1){
+									printf("piyon basariyla sona geldi");
+									isFinished[currentPlayer-1]+=1;
+									rota[greenStart[choosePiece-41]]=0;
+								}
 							}
+							
 						}
 						
 					}
@@ -461,18 +573,24 @@ int main(){
 					//blue
 					for(i=31;i<35;i++){
 						if(i==choosePiece && currentPlayer==4){
-							rota[(blueStart[choosePiece-31]+temp)%32]=rota[blueStart[choosePiece-31]];
-							rota[blueStart[choosePiece-31]]=0;
-							blueStart[choosePiece-31]+=temp;
-							if(blueStart[choosePiece-31]>32){
-								bluefinish[choosePiece-31]=1;
+							if(rota[(redStart[choosePiece-21]+temp)%32]/10==3){
+								printf("you have your own piece in the cell you want to go\nPlease, wait this round. ");
 							}
-							blueStart[choosePiece-31]=blueStart[choosePiece-31]%32;
-							if(blueStart[choosePiece-31]>15 && bluefinish[choosePiece-31]==1){
-								printf("piyon basariyla sona geldi");
-								isFinished[currentPlayer-1]+=1;
+							else{
+								rota[(blueStart[choosePiece-31]+temp)%32]=rota[blueStart[choosePiece-31]];
 								rota[blueStart[choosePiece-31]]=0;
+								blueStart[choosePiece-31]+=temp;
+								if(blueStart[choosePiece-31]>32){
+									bluefinish[choosePiece-31]=1;
+								}
+								blueStart[choosePiece-31]=blueStart[choosePiece-31]%32;
+								if(blueStart[choosePiece-31]>15 && bluefinish[choosePiece-31]==1){
+									printf("piyon basariyla sona geldi");
+									isFinished[currentPlayer-1]+=1;
+									rota[blueStart[choosePiece-31]]=0;
+								}
 							}
+							
 						}
 					}
 					if(choosePiece<35 && choosePiece>=31 && currentPlayer!=4)
@@ -486,21 +604,12 @@ int main(){
 				}
 				
 				//UPDATE
-				if(currentPlayer==1){
 					yellowToBoard(9,9,board,2,2,yellow);
-				}
-				else if(currentPlayer==2){
 					redToBoard(9,9,board,2,2,red);
-					
-				}
-				else if(currentPlayer==3){
 					greenToBoard(9,9,board,2,2,green);
-					
-				}
-				else if(currentPlayer==4){
 					blueToBoard(9,9,board,2,2,blue);
-				}
-				update(9,9,board,32,rota);
+					
+					update(9,9,board,32,rota);
 			
 			}
 	
