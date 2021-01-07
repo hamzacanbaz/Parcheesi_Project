@@ -101,6 +101,12 @@ int main(){
 	int greenfinish[4]={0};
 	int bluefinish[4]={0};
 	
+	int yellowFinishPiece=1;
+	int redFinishPiece=1;
+	int greenFinishPiece=1;
+	int blueFinishPiece=1;
+
+	
 	int playToFirstCell;
 	int numberOfPlayers;
 	int diceValue;
@@ -335,117 +341,257 @@ int main(){
 							printf("There is a piece already in the first cell\n");
 							choice=2;
 						}
-				}
+				
+				else if(rota[8]/10!=2 && rota[8]!=0){
+							choice=1;
+							//kýrmýzý oyuna girerken birini yerse
+							if(rota[8]/10==1){
+								if(rota[8]==11)
+									yellow[0][0]=11;
+								else if(rota[8]==12)
+									yellow[0][1]=12;
+								else if(rota[8]==13)
+									yellow[1][0]=13;
+								else if(rota[8]==14)
+									yellow[1][1]=14;
+								inBoard[0]--;	
+								isAlive[0]++;
+								yellowStart[rota[8]-11]=0;
+								yellowToBoard(9,9,board,2,2,yellow);
+								
+							}
+							else if(rota[0]/10==4){
+								if(rota[0]==41)
+									green[0][0]=41;
+								else if(rota[0]==42)
+									green[0][1]=42;
+								else if(rota[0]==43)
+									green[1][0]=43;
+								else if(rota[0]==44)
+									green[1][1]=44;
+								inBoard[2]--;	
+								isAlive[2]++;
+								greenStart[rota[0]-41]=24;
+								
+							}
+							
+							else if(rota[0]/10==2){
+								if(rota[0]==21)
+									red[0][0]=21;
+								else if(rota[0]==22)
+									red[0][1]=22;
+								else if(rota[0]==23)
+									red[1][0]=23;
+								else if(rota[0]==23)
+									red[1][1]=23;
+								inBoard[1]--;	
+								isAlive[1]++;
+								redStart[rota[0]-21]=8;
+								redToBoard(9,9,board,2,2,red);
+							}
+							
+							
+							}
+						}
 				if(currentPlayer==4 && choice==1){
 						if(rota[16]/10==3){
 							printf("There is a piece already in the first cell\n");
 							choice=2;
 						}
+				else if(rota[16]/10!=3 && rota[16]!=0){
+					
+				
+				if(rota[16]/10==1){
+								if(rota[16]==11)
+									yellow[0][0]=11;
+								else if(rota[16]==12)
+									yellow[0][1]=12;
+								else if(rota[16]==13)
+									yellow[1][0]=13;
+								else if(rota[16]==14)
+									yellow[1][1]=14;
+								inBoard[0]--;	
+								isAlive[0]++;
+								yellowStart[rota[0]-11]=0;
+								yellowToBoard(9,9,board,2,2,yellow);
+								
+							}
+				else if(rota[16]/10==2){
+								if(rota[16]==21)
+									red[0][0]=21;
+								else if(rota[16]==22)
+									red[0][1]=22;
+								else if(rota[16]==23)
+									red[1][0]=23;
+								else if(rota[16]==23)
+									red[1][1]=23;
+								inBoard[1]--;	
+								isAlive[1]++;
+								redStart[rota[16]-21]=8;
+								redToBoard(9,9,board,2,2,red);
+							}
+				else if(rota[16]/10==4){
+								if(rota[16]==41)
+									green[0][0]=41;
+								else if(rota[16]==42)
+									green[0][1]=42;
+								else if(rota[16]==43)
+									green[1][0]=43;
+								else if(rota[16]==44)
+									green[1][1]=44;
+								inBoard[2]--;	
+								isAlive[2]++;
+								greenStart[rota[16]-41]=24;
+								
+							}
+							}
 				}
+				
+				
+				
 				if(currentPlayer==3 && choice==1){
 						if(rota[24]/10==4){
 							printf("There is a piece already in the first cell\n");
 							choice=2;
 						}
+						else if(rota[24]/10!=4 && rota[24]!=0){
+							if(rota[24]/10==1){
+								if(rota[24]==11)
+									yellow[0][0]=11;
+								else if(rota[24]==12)
+									yellow[0][1]=12;
+								else if(rota[24]==13)
+									yellow[1][0]=13;
+								else if(rota[24]==14)
+									yellow[1][1]=14;
+								inBoard[0]--;	
+								isAlive[0]++;
+								yellowStart[rota[24]-11]=0;
+								yellowToBoard(9,9,board,2,2,yellow);
+								
+							}
+				else if(rota[24]/10==2){
+								if(rota[24]==21)
+									red[0][0]=21;
+								else if(rota[24]==22)
+									red[0][1]=22;
+								else if(rota[24]==23)
+									red[1][0]=23;
+								else if(rota[24]==23)
+									red[1][1]=23;
+								inBoard[1]--;	
+								isAlive[1]++;
+								redStart[rota[24]-21]=8;
+								redToBoard(9,9,board,2,2,red);
+							}
+							else if(rota[24]/10==3){
+								if(rota[24]==31)
+									blue[0][0]=31;
+								else if(rota[24]==32)
+									blue[0][1]=32;
+								else if(rota[24]==33)
+									blue[1][0]=33;
+								else if(rota[24]==34)
+									blue[1][1]=34;
+								inBoard[3]--;	
+								isAlive[3]++;
+								blueStart[rota[24]-31]=16;
+							}
+						}
 					}
-//				
 				if(choice==1){
-					
-					
 					
 					// yellow arrayinin ilk elemaný diyelim
 					printf("Y2 entered the game\n");
 					// hangi piyonun oyuna gireceði
-					if(isAlive[currentPlayer-1]==4){
-						if(currentPlayer==1){
+					if(currentPlayer==1){
+						if(yellow[0][0]!=0){
 							rota[0]=yellow[0][0];
 							yellow[0][0]=0;
 						}
-						else if(currentPlayer==2){
-							rota[8]=red[0][0];
-							red[0][0]=0;
-						}
-						else if(currentPlayer==3){
-							rota[24]=green[0][0];
-							green[0][0]=0;
-						}
-						else if(currentPlayer==4){
-							rota[16]=blue[0][0];
-							blue[0][0]=0;
-						}
-						
-					}
-					else if(isAlive[currentPlayer-1]==3){
-						if(currentPlayer==1){
+						else if(yellow[0][1]!=0){
 							rota[0]=yellow[0][1];
 							yellow[0][1]=0;
 						}
-						else if(currentPlayer==2){
-							rota[8]=red[0][1];
-							red[0][1]=0;
-						}
-						else if(currentPlayer==3){
-							rota[24]=green[0][1];
-							green[0][1]=0;
-						}
-						else if(currentPlayer==4){
-							rota[16]=blue[0][1];
-							blue[0][1]=0;
-						}
-					}
-
-
-					else if(isAlive[currentPlayer-1]==2){
-						
-						if(currentPlayer==1){
+						else if(yellow[1][0]!=0){
 							rota[0]=yellow[1][0];
 							yellow[1][0]=0;
 						}
-						
-						else if(currentPlayer==2){
-							rota[8]=red[1][0];
-							red[1][0]=0;
-						}
-						
-						else if(currentPlayer==3){
-							rota[24]=green[1][0];
-							green[1][0]=0;
-						}
-						
-						else if(currentPlayer==4){
-							rota[16]=blue[1][0];
-							blue[1][0]=0;
-						}
-						
-					}
-						
-					else if(isAlive[currentPlayer-1]==1){
-						if(currentPlayer==1){
+						else if(yellow[1][1]!=0){
 							rota[0]=yellow[1][1];
 							yellow[1][1]=0;
 						}
-						else if(currentPlayer==2){
+						else{
+							printf("All pieces have been played");
+						}
+					}
+					else if(currentPlayer==2){
+						if(red[0][0]!=0){
+							rota[8]=red[0][0];
+							red[0][0]=0;
+						}
+						else if(red[0][1]!=0){
+							rota[8]=red[0][1];
+							red[0][1]=0;
+						}
+						else if(red[1][0]!=0){
+							rota[8]=red[1][0];
+							red[1][0]=0;
+						}
+						else if(red[1][1]!=0){
 							rota[8]=red[1][1];
 							red[1][1]=0;
 						}
-						else if(currentPlayer==3){
+						else{
+							printf("All pieces have been played");
+						}
+					}
+					else if(currentPlayer==3){
+						if(green[0][0]!=0){
+							rota[24]=green[0][0];
+							green[0][0]=0;
+						}
+						else if(green[0][1]!=0){
+							rota[24]=green[0][1];
+							green[0][1]=0;
+						}
+						else if(green[1][0]!=0){
+							rota[24]=green[1][0];
+							green[1][0]=0;
+						}
+						else if(green[1][1]!=0){
 							rota[24]=green[1][1];
 							green[1][1]=0;
 						}
-						else if(currentPlayer==4){
+						else{
+							printf("All pieces have been played");
+						}
+					}
+					else if(currentPlayer==4){
+						if(blue[0][0]!=0){
+							rota[16]=blue[0][0];
+							blue[0][0]=0;
+						}
+						else if(blue[0][1]!=0){
+							rota[16]=blue[0][1];
+							blue[0][1]=0;
+						}
+						else if(blue[1][0]!=0){
+							rota[16]=blue[1][0];
+							blue[1][0]=0;
+						}
+						else if(blue[1][1]!=0){
 							rota[16]=blue[1][1];
 							blue[1][1]=0;
 						}
+						else{
+							printf("All pieces have been played");
+						}
+						
 					}
-					else{
-						printf("All pieces have been played");
-						isAlive[currentPlayer-1]++;
-						inBoard[currentPlayer-1]--;	
-					}
+					
 					inBoard[currentPlayer-1]++;	
 					isAlive[currentPlayer-1]--;
-					
-					
 					
 					// Update safePlaces
 					if(numberOfPlayersCopy==2){
@@ -480,20 +626,9 @@ int main(){
 			 if(sixController==1){
 				
 				// movement
-				// 4-isAlive[currentPlayer-1]
-//				if(playToFirstCell==1){
-//					printf("You eat that");
-//					if(rota[0]==21){
-//						red[0][0]=21;
-//						redStart[0]=8;
-//						inBoard[1]--;
-//								isAlive[1]++;
-//					}
-//				}
 				if(inBoard[currentPlayer-1]>0 ){
 					printf("which piece should movee: ");
 					scanf("%d",&choosePiece);
-					
 					
 					//yellow
 					for(i=11;i<15;i++){
@@ -580,18 +715,28 @@ int main(){
 								yellowStart[choosePiece-11]+=temp;
 								
 								if(yellowStart[choosePiece-11]>31  ){
+									
 									printf("piyon basariyla sona geldi");
 									inBoard[currentPlayer-1]--;
 									isFinished[currentPlayer-1]++;
+									
 									if(isFinished[currentPlayer-1]==4){
 										isAnyWinner=1;
-										printf("Sampiyon Yellow");
+										printf("\n\nSampiyon Yellow\n\n");
 									}
-										
-									yellowStart[choosePiece-11]=0;
+									//	
+									rota[yellowStart[choosePiece-11]]=0;
+									
+									if(choosePiece==11){
+										board[4][1]=11;
+									}
+									else if(choosePiece==12)
+										board[4][2]=12;
+									else if(choosePiece==13)
+										board[4][3]=13;
 								}
 							}
-							//
+							
 							
 						}
 					}
@@ -687,16 +832,25 @@ int main(){
 								if(redStart[choosePiece-21]>7 && redfinish[choosePiece-21]==1){
 									printf("piyon basariyla sona geldi");
 									isFinished[currentPlayer-1]++;
+									
 									if(isFinished[currentPlayer-1]==4){
 										isAnyWinner=1;
-										printf("Sampiyon Red");
+										printf("\n\nSampiyon Red\n\n");
 									}
-										
 									inBoard[currentPlayer-1]--;
 									rota[redStart[choosePiece-21]]=0;
+									
+									if(choosePiece==21){
+										board[1][4]=21;
+									}
+									else if(choosePiece==22)
+										board[2][4]=22;
+									else if(choosePiece==23)
+										board[3][4]=23;
+									
 								}
 							}
-							
+							  
 						}
 					}
 					if(choosePiece<25 && choosePiece>=21 && currentPlayer!=2)
@@ -756,7 +910,6 @@ int main(){
 								
 								// sarý maviyi yerse
 								if((rota[(greenStart[choosePiece-41]+temp)%32])/10==3){
-									
 								
 								if(rota[(greenStart[choosePiece-41]+temp)%32]==31){
 									blue[0][0]=31;
@@ -781,7 +934,7 @@ int main(){
 								rota[(greenStart[choosePiece-41]+temp)%32]=rota[greenStart[choosePiece-41]];
 								rota[greenStart[choosePiece-41]]=0;
 								greenStart[choosePiece-41]+=temp;
-								if(greenStart[choosePiece-41]>32){
+								if(greenStart[choosePiece-41]>31){
 									greenfinish[choosePiece-41]=1;
 								}
 								greenStart[choosePiece-41]=greenStart[choosePiece-41]%32;
@@ -790,11 +943,18 @@ int main(){
 									isFinished[currentPlayer-1]+=1;
 									if(isFinished[currentPlayer-1]==4){
 										isAnyWinner=1;
-										printf("Sampiyon Green");
+										printf("\n\nSampiyon Green\n\n");
 									}
 										
 									inBoard[currentPlayer-1]--;
 									rota[greenStart[choosePiece-41]]=0;
+									if(choosePiece==41){
+										board[5][4]=41;
+									}
+									else if(choosePiece==42)
+										board[6][4]=42;
+									else if(choosePiece==43)
+										board[7][4]=43;
 								}
 							}
 							
@@ -879,23 +1039,34 @@ int main(){
 								isAlive[2]++;
 								}
 								
+								
+								
 								rota[(blueStart[choosePiece-31]+temp)%32]=rota[blueStart[choosePiece-31]];
 								rota[blueStart[choosePiece-31]]=0;
 								blueStart[choosePiece-31]+=temp;
-								if(blueStart[choosePiece-31]>32){
+								if(blueStart[choosePiece-31]>31){
 									bluefinish[choosePiece-31]=1;
 								}
+								
 								blueStart[choosePiece-31]=blueStart[choosePiece-31]%32;
 								if(blueStart[choosePiece-31]>15 && bluefinish[choosePiece-31]==1){
 									printf("piyon basariyla sona geldi");
 									isFinished[currentPlayer-1]+=1;
 									if(isFinished[currentPlayer-1]==4){
 										isAnyWinner=1;
-										printf("Sampiyon Blue");
+										printf("\n\nSampiyon Blue\n\n");
 									}
 										
 									inBoard[currentPlayer-1]--;
 									rota[blueStart[choosePiece-31]]=0;
+									
+									if(choosePiece==31){
+										board[4][7]=31;
+									}
+									else if(choosePiece==32)
+										board[4][6]=32;
+									else if(choosePiece==33)
+										board[4][5]=33;
 								}
 							}
 							
