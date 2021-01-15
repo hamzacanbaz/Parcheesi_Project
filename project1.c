@@ -65,28 +65,28 @@ void update(int row,int col,int board[row][col],int len,int rota[len]){
 	board[5][0]= rota[30];	board[4][0]= rota[31];
 	
 }
-// update nests
+// update yellows nest
 void yellowToBoard(int row,int col,int board[row][col],int i,int j, int yellow[i][j]){
 		board[0][0]=yellow[0][0];
 		board[0][1]=yellow[0][1];
 		board[1][0]=yellow[1][0];
 		board[1][1]=yellow[1][1];
 }
-
+// update reds nest
 void redToBoard(int row,int col,int board[row][col],int i,int j, int red[i][j]){
 		board[0][7]=red[0][0];
 		board[0][8]=red[0][1];
 		board[1][7]=red[1][0];
 		board[1][8]=red[1][1];
 }
-
+// update greens nest
 void greenToBoard(int row,int col,int board[row][col],int i,int j, int green[i][j]){
 		board[7][0]=green[0][0];
 		board[7][1]=green[0][1];
 		board[8][0]=green[1][0];
 		board[8][1]=green[1][1];
 }
-
+// update blues nest
 void blueToBoard(int row,int col,int board[row][col],int i,int j, int blue[i][j]){
 		board[7][7]=blue[0][0];
 		board[7][8]=blue[0][1];
@@ -108,11 +108,14 @@ int main(){
 	int bluefinish[4]={0};
 	
 	
+//	int playToFirstCell;
 	int numberOfPlayers;  // player number
 	int diceValue;
 	int i,j;
 	int temp;
+//	int min;
 	int choice;
+//	int whichPiece;
 	int wrongOperation = 1;
 	int diceValues[2][4] = {1,2,3,4,0,0,0,0};  // kullanici numarasi ve baslama icin atilan zar degerleri 
 	int board[9][9]={0};	//all board cells
@@ -126,11 +129,12 @@ int main(){
 	int rota[32]={0};
 	int choosePiece;
 	
-	int isAnyWinner = 0; 
+	int isAnyWinner = 0; //if it is 1 game will be over
 	
 	int isAlive[4]={4,4,4,4};   // number of players in nest
 	
 	// rota
+	
 	
 	
 	update(9,9, board,32,rota);
@@ -153,7 +157,7 @@ int main(){
 	int greenFinished[4]={0};
 	int blueFinished[4]={0};
 	
-	int inBoard[4]={0};          // still playing pieces on the map
+	int inBoard[4]={0};          // still playing on the map
 	int isFinished[4]={0};		// number of finished pieces
 	
 
@@ -171,6 +175,7 @@ int main(){
 				wrongOperation=0;			
 	}
 	printf("\n");
+//	printf("%d\n",numberOfPlayers);
 	
 	
 	// Colors of players
@@ -287,7 +292,13 @@ int main(){
 						scanf("%d",&choice);
 					}
 					
+					
 				}
+//				//	invalid move
+//				if(choice!=1 && choice!=2){
+//					printf("You lost your right\n");
+//					six
+//				}	
 				
 				if(currentPlayer==1 && choice==1){
 					// if player has a piece in the beginning cell and try to move a new piece it is forbidden
@@ -527,6 +538,8 @@ int main(){
 						}
 				if(choice==1){
 					
+					// yellow arrayinin ilk elemaný diyelim
+					
 					// which piece should play to map
 					if(currentPlayer==1){
 						if(yellow[0][0]!=0){
@@ -661,6 +674,7 @@ int main(){
 					sixController=1; // dice = 6 ?
 					
 				}
+//				sixController=0;
 			}
 			// dice= 6 but you want to move your piece that is alive OR dice != 6
 			 if(sixController==1){
@@ -684,6 +698,7 @@ int main(){
 										isAnyWinner=1;
 										printf("\n\nYELLOW IS THE CHAMPION\n\n");
 									}
+									//	
 									rota[yellowStart[choosePiece-11]]=0;
 									
 									//fill the blanks with finishing pieces
